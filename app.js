@@ -11,7 +11,6 @@ function renderTasks() {
     document.getElementById("taskCount").innerText = 
     `Total: ${tasks.length} tareas`;
 
-
     tasks.forEach((task, index) => {
         list.innerHTML += `
             <li style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
@@ -27,7 +26,11 @@ function renderTasks() {
 function addTask() {
     const input = document.getElementById("taskInput");
 
-    if (input.value.trim() === "") return;
+    
+    if (input.value.trim() === "") {
+        alert("No puedes agregar una tarea vacía");
+        return;
+    }
 
     tasks.push({
         text: input.value,
@@ -61,7 +64,6 @@ function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
     renderTasks();
-
 }
 
 function clearTasks() {
@@ -71,8 +73,6 @@ function clearTasks() {
         renderTasks();
     }
 }
-
-
 
 // cargar al iniciar
 renderTasks();
