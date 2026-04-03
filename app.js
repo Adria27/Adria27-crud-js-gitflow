@@ -28,7 +28,7 @@ function addTask() {
 
     
     if (input.value.trim() === "") {
-        alert("No puedes agregar una tarea vacía");
+        alert("No puedes agregar una tarea vacía aqui ");
         return;
     }
 
