@@ -57,7 +57,18 @@ function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
     renderTasks();
+
 }
+
+function clearTasks() {
+    if (confirm("¿Seguro que quieres eliminar todas las tareas?")) {
+        tasks = [];
+        saveTasks();
+        renderTasks();
+    }
+}
+
+
 
 // cargar al iniciar
 renderTasks();
