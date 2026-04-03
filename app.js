@@ -29,3 +29,13 @@ function deleteTask(index) {
         renderTasks();
     }
 }
+
+function editTask(index) {
+    const newTask = prompt("Editar tarea:", tasks[index]);
+    if (newTask !== null && newTask.trim() !== "") {
+        tasks[index] = newTask;
+        renderTasks();
+    }
+}
+
+<button onclick="editTask(${index})">Editar</button>
