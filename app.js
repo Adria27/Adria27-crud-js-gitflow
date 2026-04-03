@@ -8,6 +8,10 @@ function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
 
+    document.getElementById("taskCount").innerText = 
+    `Total: ${tasks.length} tareas`;
+
+
     tasks.forEach((task, index) => {
         list.innerHTML += `
             <li style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
