@@ -1,4 +1,5 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -8,10 +9,18 @@ function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
 
-    document.getElementById("taskCount").innerText = 
-    `Total: ${tasks.length} tareas`;
+    document.getElementById("taskCount").innerText =
+        `Total: ${tasks.length} tareas`;
 
-    tasks.forEach((task, index) => {
+    let filteredTasks = tasks;
+
+    if (currentFilter === "completed") {
+        filteredTasks = tasks.filter(task => task.completed);
+    } else if (currentFilter === "pending") {
+        filteredTasks = tasks.filter(task => !task.completed);
+    }
+
+    filteredTasks.forEach((task, index) => {
         list.innerHTML += `
             <li style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
                 ${task.text}
@@ -26,14 +35,13 @@ function renderTasks() {
 function addTask() {
     const input = document.getElementById("taskInput");
 
-    
     if (input.value.trim() === "") {
-        alert("No puedes agregar una tarea vacía aqui ");
+        alert("No puedes agregar una tarea vacía");
         return;
     }
 
     tasks.push({
-        text: input.value,
+        text: input.value.trim(),
         completed: false
     });
 
@@ -53,8 +61,15 @@ function deleteTask(index) {
 function editTask(index) {
     const newTask = prompt("Editar tarea:", tasks[index].text);
 
-    if (newTask !== null && newTask.trim() !== "") {
-        tasks[index].text = newTask;
+    if (newTask !== null) {
+        const cleanTask = newTask.trim();
+
+        if (cleanTask === "") {
+            alert("La tarea no puede quedar vacía");
+            return;
+        }
+
+        tasks[index].text = cleanTask;
         saveTasks();
         renderTasks();
     }
@@ -63,6 +78,11 @@ function editTask(index) {
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
+    renderTasks();
+}
+
+function filterTasks(type) {
+    currentFilter = type;
     renderTasks();
 }
 
