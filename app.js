@@ -1,4 +1,5 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -11,7 +12,16 @@ function renderTasks() {
     document.getElementById("taskCount").innerText = 
     `Total: ${tasks.length} tareas`;
 
-    tasks.forEach((task, index) => {
+    let filteredTasks = tasks;
+
+    
+    if (currentFilter === "completed") {
+        filteredTasks = tasks.filter(task => task.completed);
+    } else if (currentFilter === "pending") {
+        filteredTasks = tasks.filter(task => !task.completed);
+    }
+
+    filteredTasks.forEach((task, index) => {
         list.innerHTML += `
             <li style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
                 ${task.text}
@@ -26,7 +36,6 @@ function renderTasks() {
 function addTask() {
     const input = document.getElementById("taskInput");
 
-    
     if (input.value.trim() === "") {
         alert("No puedes agregar una tarea vacía aqui ");
         return;
@@ -63,6 +72,12 @@ function editTask(index) {
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
+    renderTasks();
+}
+
+
+function filterTasks(type) {
+    currentFilter = type;
     renderTasks();
 }
 
