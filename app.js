@@ -1,36 +1,23 @@
-develop
-
- HEAD
-let tasks = [];
-
-qa
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
- develop
-
-develop
-qa
 function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
+
+    document.getElementById("taskCount").innerText = 
+    `Total: ${tasks.length} tareas`;
+
 
     tasks.forEach((task, index) => {
         list.innerHTML += `
             <li style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
                 ${task.text}
                 <button onclick="toggleComplete(${index})">✔</button>
- develop
                 <button onclick="editTask(${index})">Editar</button>
-
- HEAD
-
-                <button onclick="editTask(${index})">Editar</button>
- develop
-qa
                 <button onclick="deleteTask(${index})">Eliminar</button>
             </li>
         `;
@@ -51,13 +38,6 @@ function addTask() {
     saveTasks();
     renderTasks();
 }
-develop
-
- HEAD
-function toggleComplete(index) {
-    tasks[index].completed = !tasks[index].completed;
-    renderTasks();
- qa
 
 function deleteTask(index) {
     if (confirm("¿Seguro que quieres eliminar esta tarea?")) {
@@ -65,10 +45,6 @@ function deleteTask(index) {
         saveTasks();
         renderTasks();
     }
- develop
-
- develop
- qa
 }
 
 function editTask(index) {
@@ -85,7 +61,18 @@ function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
     renderTasks();
+
 }
+
+function clearTasks() {
+    if (confirm("¿Seguro que quieres eliminar todas las tareas?")) {
+        tasks = [];
+        saveTasks();
+        renderTasks();
+    }
+}
+
+
 
 // cargar al iniciar
 renderTasks();
